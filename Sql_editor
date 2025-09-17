@@ -1,0 +1,13 @@
+-- Enable pgvector
+create extension if not exists vector;
+
+-- Documents table
+create table if not exists documents (
+    id uuid primary key default gen_random_uuid(),
+    filename text not null,
+    file_path text not null,
+    file_hash text unique,
+    content text not null,
+    embedding vector(384), -- matches all-MiniLM-L6-v2
+    created_at timestamp default now()
+);
