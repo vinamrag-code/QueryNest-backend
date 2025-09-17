@@ -12,7 +12,7 @@ from supabase import create_client
 from PyPDF2 import PdfReader
 from fastapi import UploadFile
 from models import SearchRequest, SearchResult
-from typing import Dict
+
 
 # Load environment variables
 load_dotenv()
@@ -171,5 +171,6 @@ def semantic_search(request: SearchRequest) -> List[SearchResult]:
         file_info = pdf_texts[idx]
         snippet: str = file_info["content"][:200] + "..."
         results.append(SearchResult(filename=file_info["filename"], snippet=snippet))
+
 
     return results
