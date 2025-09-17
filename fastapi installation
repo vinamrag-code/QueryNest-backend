@@ -1,0 +1,9 @@
+# copy paste this in your terminal one by one
+
+python -m venv/venv-fastapi
+.\venv-fastapi\Scripts\activate
+pip install fastapi
+pip install -u pip
+pip install "uvicorn[standard]"
+
+uvicorn main:app --reload
