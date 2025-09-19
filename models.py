@@ -8,4 +8,4 @@ class SearchRequest(BaseModel):
 class SearchResult(BaseModel):
     filename: str
     snippet: str
-    score: float
+    url: str
