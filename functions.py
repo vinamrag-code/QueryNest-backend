@@ -82,7 +82,12 @@ def upload_and_index(file: UploadFile) -> Dict[str, str]:
     # 2. Upload to Supabase Storage
     file_path: str = f"{file.filename}"
     supabase.storage.from_(BUCKET_NAME).upload(
-        file=file_bytes, path=file_path, file_options={"upsert": "false"}
+        path=file_path,
+        file=file_bytes,
+        file_options={
+            "upsert": "false",
+            "content-type": "application/pdf"
+        }
     )
 
     # 3. Extract text from PDF
@@ -170,7 +175,9 @@ def semantic_search(request: SearchRequest) -> List[SearchResult]:
             continue
         file_info = pdf_texts[idx]
         snippet: str = file_info["content"][:200] + "..."
-        results.append(SearchResult(filename=file_info["filename"], snippet=snippet))
+        url = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + file_info["filename"]
+        
+        results.append(SearchResult(filename=file_info["filename"], snippet=snippet, url=url))
 
 
     return results
